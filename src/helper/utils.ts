@@ -1,20 +1,41 @@
-const toString = Object.prototype.toString;
+const toString = Object.prototype.toString
 
-export function isDate(val:any): val is Date{
-    return toString.call(val) === '[Object Date]'; 
-};
-
-export function isObject(val:any): val is Object{
-    return val !== null &&  typeof val === 'object'; 
+export function isDate(val: any): val is Date {
+  return toString.call(val) === '[Object Date]'
 }
 
-export function isPlainObject(val:any): val is Object{
-    return toString.call(val) === '[object,Object]';
+export function isObject(val: any): val is Object {
+  return val !== null && typeof val === 'object'
 }
 
-export function extend<T,U>(to:T,from:U):T&U{
-    for(const key in from){
-        (to as T&U)[key] = from[key] as any 
+export function isPlainObject(val: any): val is Object {
+  return toString.call(val) === '[object,Object]'
+}
+
+export function extend<T, U>(to: T, from: U): T & U {
+  for (const key in from) {
+    ;(to as T & U)[key] = from[key] as any
+  }
+  return to as T & U
+}
+
+export function deepCopy(...objs: any[]): any {
+  const result = Object.create(null)
+  objs.forEach(obj => {
+    if (obj) {
+      Object.keys(obj).forEach(key => {
+        const val = obj[key]
+        if (isPlainObject(val)) {
+          if (isPlainObject(result[key])) {
+            result[key] = deepCopy(result[key], val)
+          } else {
+            result[key] = deepCopy(val)
+          }
+        } else {
+          result[key] = val
+        }
+      })
     }
-    return to as T&U;
+  })
+  return result
 }
