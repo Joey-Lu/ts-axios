@@ -4,9 +4,11 @@ import { buildURL } from '../helper/url'
 import { transformRequest, transformResponse } from '../helper/data'
 import { processHeaders, flattenHeaders } from '../helper/headers'
 import transform from './transform'
+import Axios from './Axios'
 
 export default function dispatchRequest(config: AxiosRequestConfig): AxiosPromise {
   //TODO
+  throwIfCancelRequsted(config)
   processConfig(config)
   return xhr(config).then(res => {
     return transformResponseData(res)
@@ -27,4 +29,10 @@ function transformUrl(config: AxiosRequestConfig): string {
 function transformResponseData(res: AxiosResponse): AxiosResponse {
   res.data = transform(res.data, res.headers, res.config.transformResponse)
   return res
+}
+
+function throwIfCancelRequsted(config:AxiosRequestConfig):void{
+  if(config.cancelToken){
+    config.cancelToken.throwIfRequested()
+  }
 }
