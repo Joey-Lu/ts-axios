@@ -25,6 +25,11 @@ export interface AxiosRequestConfig {
   transformRequest?: AxiosTransformer | AxiosTransformer[]
   transformResponse?: AxiosTransformer | AxiosTransformer[]
   cancelToken?:CancelToken
+  withCredential?:boolean
+  xsrfCookieName?:string
+  xsrfHeaderName?:string
+  onDownLoadProgress?:(e:ProgressEvent)=> void
+  onUpLoadProgress?:(e:ProgressEvent)=> void
   [propName: string]: any
 }
 
