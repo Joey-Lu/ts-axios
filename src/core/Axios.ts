@@ -6,7 +6,7 @@ import {
   ResolvedFn,
   RejectedFn
 } from '../type'
-import dispatchRequest from './dispatchRequest'
+import dispatchRequest, { transformUrl } from './dispatchRequest'
 import InterceptorManager from './InterceptorManager'
 import mergeConfig from './mergeConfig'
 
@@ -32,7 +32,7 @@ export default class Axios {
     this.defaults = initCofig
   }
 
-  request(url: any, config: any): AxiosPromise {
+  request(url: any, config?: any): AxiosPromise {
     if (typeof url === 'string') {
       if (!config) {
         config = {}
@@ -95,6 +95,11 @@ export default class Axios {
 
   put(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise {
     return this._requestWithData('put', url, data, config)
+  }
+
+  getUri(config?:AxiosRequestConfig):string{
+    config = mergeConfig(this.defaults,config)
+    return transformUrl(config);
   }
 
   _requestWithoutData(method: Method, url: string, config?: AxiosRequestConfig) {
