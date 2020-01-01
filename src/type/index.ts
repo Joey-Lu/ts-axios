@@ -24,12 +24,16 @@ export interface AxiosRequestConfig {
   timeout?: number
   transformRequest?: AxiosTransformer | AxiosTransformer[]
   transformResponse?: AxiosTransformer | AxiosTransformer[]
-  cancelToken?:CancelToken
-  withCredential?:boolean
-  xsrfCookieName?:string
-  xsrfHeaderName?:string
-  onDownLoadProgress?:(e:ProgressEvent)=> void
-  onUpLoadProgress?:(e:ProgressEvent)=> void
+  cancelToken?: CancelToken
+  withCredential?: boolean
+  xsrfCookieName?: string
+  xsrfHeaderName?: string
+  onDownLoadProgress?: (e: ProgressEvent) => void
+  onUpLoadProgress?: (e: ProgressEvent) => void
+  auth?: AxiosBasicCredentials
+  validateStatus?: (status: number) => boolean
+  paramSerializer?: (params: any) => string
+  baseURL ? : string
   [propName: string]: any
 }
 
@@ -84,9 +88,9 @@ export interface AxiosInstance extends Axios {
 
 export interface AxiosStatic extends AxiosInstance {
   create(config?: AxiosRequestConfig): AxiosInstance
-  CancelToken:CancelTokenStatic  
-  Cancel:CancelStatic
-  isCancel:(value:any) => boolean
+  CancelToken: CancelTokenStatic
+  Cancel: CancelStatic
+  isCancel: (value: any) => boolean
 }
 
 export interface AxiosInterceptorManager<T> {
@@ -111,33 +115,36 @@ export interface CancelToken {
   promise: Promise<Cancel>
   reason?: Cancel
 
-  throwIfRequested():void
+  throwIfRequested(): void
 }
 
-export interface Canceler{
-  (message?:string):void
+export interface Canceler {
+  (message?: string): void
 }
 
-export interface CanacelExecutor{
-  (cancel:Canceler):void 
+export interface CanacelExecutor {
+  (cancel: Canceler): void
 }
 
-export interface CancelTokenSource{
-  token:CancelToken
+export interface CancelTokenSource {
+  token: CancelToken
   cancel: Canceler
 }
 
-export interface CancelTokenStatic{
-  new (executor:CanacelExecutor):CancelToken
-  source():CancelTokenSource
+export interface CancelTokenStatic {
+  new (executor: CanacelExecutor): CancelToken
+  source(): CancelTokenSource
 }
 
-export interface Cancel{
-  message?:string
+export interface Cancel {
+  message?: string
 }
 
-export interface CancelStatic{
-  new (message?:string):Cancel
+export interface CancelStatic {
+  new (message?: string): Cancel
 }
 
-
+export interface AxiosBasicCredentials {
+  username: string
+  password: string
+}

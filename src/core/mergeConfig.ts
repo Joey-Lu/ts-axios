@@ -4,7 +4,7 @@ import { isPlainObject, deepCopy } from '../helper/utils';
 const strategy = Object.create(null)
 
 const strategyKeysFromVal2 = ['url','params','data'];
-const strategyKeysDeepMerge = ['headers']; 
+const strategyKeysDeepMerge = ['headers','auth']; 
 
 strategyKeysFromVal2.forEach(key => {
     strategy[key] = fromVal2;

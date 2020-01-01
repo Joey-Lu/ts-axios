@@ -1,3 +1,5 @@
+import { URLSearchParams } from "url";
+
 const toString = Object.prototype.toString
 
 export function isDate(val: any): val is Date {
@@ -6,6 +8,10 @@ export function isDate(val: any): val is Date {
 
 export function isObject(val: any): val is Object {
   return val !== null && typeof val === 'object'
+}
+
+export function isUrlSearchParams(val:any): val is URLSearchParams{
+  return val !== null && val instanceof URLSearchParams;
 }
 
 export function isPlainObject(val: any): val is Object {
